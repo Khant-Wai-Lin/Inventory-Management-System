@@ -57,7 +57,6 @@ public class InventorySystem implements IInventorySystem {
 
             } catch (Exception e) {
                 System.out.println("❌ Invalid input. Please enter a number.");
-                scanner.nextLine();
             }
 
         } while (!isExit);
@@ -87,11 +86,15 @@ public class InventorySystem implements IInventorySystem {
 
     public void viewAllProducts() {
         products = fileHandler.readFile();
-        System.out.println("No. |  Name  |  Stock  |  Price");
+        System.out.printf("%-4s | %-20s | %-10s | %-10s%n", "No.", "Name", "Stock", "Price");
+        printLine();
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
-            System.out.println(
-                    (i + 1) + ". " + product.getName() + " | " + product.getStock() + " | " + product.getPrice());
+            System.out.printf("%-4d | %-20s | %-10d | %-10s%n",
+                    i + 1,
+                    product.getName(),
+                    product.getStock(),
+                    String.valueOf(product.getPrice()));
         }
     }
 
@@ -172,6 +175,6 @@ public class InventorySystem implements IInventorySystem {
     }
 
     public void printLine() {
-        System.out.println("===================================");
+        System.out.println("====================================================");
     }
 }

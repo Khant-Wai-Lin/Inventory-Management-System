@@ -20,9 +20,9 @@ interface IInventorySystem {
 }
 
 public class InventorySystem implements IInventorySystem {
-    public static List<Product> products = new ArrayList<Product>();
-    public static FileHandler fileHandler = new FileHandler();
-    public static Scanner scanner = new Scanner(System.in);
+    private List<Product> products = new ArrayList<Product>();
+    private FileHandler fileHandler = new FileHandler();
+    private Scanner scanner = new Scanner(System.in);
 
     public void start() {
         boolean isExit = false;
@@ -86,6 +86,11 @@ public class InventorySystem implements IInventorySystem {
 
     public void viewAllProducts() {
         products = fileHandler.readFile();
+        if(products.isEmpty()){
+            System.out.println("Sorry ,there in no products in the inventory.");
+            return;
+        }
+        Collections.sort(products);
         System.out.printf("%-4s | %-20s | %-10s | %-10s%n", "No.", "Name", "Stock", "Price");
         printLine();
         for (int i = 0; i < products.size(); i++) {

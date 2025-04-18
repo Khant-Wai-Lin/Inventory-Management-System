@@ -18,6 +18,7 @@ public class FileHandler implements IFileHandler {
         if (!file.exists()) {
             System.out.println("⚠️ File not found! Creating a new one...");
             createFile();
+            return products;
         }
         try (BufferedReader fr = new BufferedReader(new FileReader(file))) {
             String line;
@@ -38,7 +39,8 @@ public class FileHandler implements IFileHandler {
 
     public void createFile() {
         try {
-            PrintWriter writer = new PrintWriter("output.txt");
+            File myFile = new File("output.txt");
+            PrintWriter writer = new PrintWriter(new FileWriter(myFile));
             writer.close();
             System.out.println("✅ New file created: output.txt");
         } catch (IOException e) {
@@ -47,7 +49,8 @@ public class FileHandler implements IFileHandler {
     }
 
     public void writeFile(List<Product> products) {
-        try (PrintWriter pw = new PrintWriter("output.txt")) {
+        File myFile = new File("output.txt");
+        try (PrintWriter pw = new PrintWriter(new FileWriter(myFile))) {
             for (Product p : products) {
                 pw.println(p.getName() + "," + p.getStock() + "," + p.getPrice());
             }

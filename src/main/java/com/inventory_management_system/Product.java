@@ -1,6 +1,6 @@
 package com.inventory_management_system;
 
-public class Product {
+public class Product implements Comparable<Product> {
     private String name;
     private int stock;
     private double price;
@@ -33,5 +33,11 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    // Comparable implementation
+    @Override
+    public int compareTo(Product other) {
+        return this.name.compareTo(other.name);
     }
 }

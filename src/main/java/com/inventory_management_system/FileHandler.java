@@ -4,14 +4,27 @@ import java.io.*;
 import java.util.*;
 
 interface IFileHandler {
+    /**
+     * Reads the product data from the file and returns it as a list of Product objects.
+     * @return List of Product objects read from the file.
+     */
     List<Product> readFile();
 
+    /**
+     * Creates a new file if it does not exist.
+     */
     void createFile();
 
     void writeFile(List<Product> products);
 }
 
 public class FileHandler implements IFileHandler {
+    /**
+     * Reads the product data from "output.txt".
+     * If the file does not exist, it creates a new file and returns an empty list.
+     * Each line in the file is expected to contain product details in the format: name,stock,price.
+     * @return List of Product objects read from the file.
+     */
     public List<Product> readFile() {
         List<Product> products = new ArrayList<>();
         File file = new File("output.txt");
@@ -37,6 +50,11 @@ public class FileHandler implements IFileHandler {
         return products;
     }
 
+    /**
+     * Creates a new file named "output.txt".
+     * If the file already exists, it does nothing.
+     * If the file creation fails, an error message is printed.
+     */
     public void createFile() {
         try {
             File myFile = new File("output.txt");
@@ -48,6 +66,12 @@ public class FileHandler implements IFileHandler {
         }
     }
 
+    /**
+     * Writes the list of Product objects to "output.txt".
+     * Each product is written in the format: name,stock,price.
+     * If the file writing fails, an error message is printed.
+     * @param products List of Product objects to be written to the file.
+     */
     public void writeFile(List<Product> products) {
         File myFile = new File("output.txt");
         try (PrintWriter pw = new PrintWriter(new FileWriter(myFile))) {

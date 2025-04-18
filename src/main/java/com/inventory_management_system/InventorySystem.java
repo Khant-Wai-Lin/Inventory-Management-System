@@ -123,6 +123,7 @@ public void editProduct() {
         System.out.println("What do you want to update?");
         System.out.println("1. Name");
         System.out.println("2. Stock");
+        System.out.println("3. Price");
 
         // Prompt user to choose which attribute to update
         int updateChoice = scanner.nextInt();
@@ -137,7 +138,12 @@ public void editProduct() {
             System.out.print("Enter new stock value: ");
             int newStock = scanner.nextInt();
             selected.setStock(newStock);
-        } else {
+        } else if (updateChoice == 3) {
+            System.out.print("Enter new price: ");
+            double newPrice = scanner.nextDouble();
+            selected.setPrice(newPrice);
+        }
+        else {
             System.out.println("❌ Invalid option.");
             return;
         }

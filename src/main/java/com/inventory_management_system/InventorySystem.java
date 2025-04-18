@@ -103,83 +103,104 @@ public class InventorySystem implements IInventorySystem {
         }
     }
 
-    public void editProduct() {
-        try {
-            System.out.print("Enter product number to update: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume leftover newline
+    // Method to edit an existing product in the inventory
+public void editProduct() {
+    try {
+        // Prompt user for product number to update
+        System.out.print("Enter product number to update: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // consume leftover newline
 
-            if (choice < 1 || choice > products.size()) {
-                System.out.println("❌ Invalid choice.");
-                return;
-            }
-
-            Product selected = products.get(choice - 1);
-            System.out.println("Selected: " + selected);
-            System.out.println("What do you want to update?");
-            System.out.println("1. Name");
-            System.out.println("2. Stock");
-
-            int updateChoice = scanner.nextInt();
-            scanner.nextLine();
-
-            if (updateChoice == 1) {
-                System.out.print("Enter new name: ");
-                String newName = scanner.nextLine();
-                selected.setName(newName);
-            } else if (updateChoice == 2) {
-                System.out.print("Enter new stock value: ");
-                int newStock = scanner.nextInt();
-                selected.setStock(newStock);
-            } else {
-                System.out.println("❌ Invalid option.");
-                return;
-            }
-            fileHandler.writeFile(products);
-            System.out.println("✅ Product updated and saved.");
-
-        } catch (InputMismatchException e) {
-            System.out.println("⚠️ Please enter a valid number.");
-        } catch (Exception e) {
-            System.out.println("❌ Unexpected error: " + e.getMessage());
-        }
-    }
-
-    public void removeProduct() {
-
-        System.out.print("Enter product number to remove: ");
-        if (products.isEmpty()) {
-            System.out.println("⚠️ No products available to remove.");
+        // Validate product number
+        if (choice < 1 || choice > products.size()) {
+            System.out.println("❌ Invalid choice.");
             return;
         }
-        try {
 
-            int choice = Integer.parseInt(scanner.nextLine());
+        // Get the selected product from the list
+        Product selected = products.get(choice - 1);
+        System.out.println("Selected: " + selected);
+        System.out.println("What do you want to update?");
+        System.out.println("1. Name");
+        System.out.println("2. Stock");
 
-            if (choice < 1 || choice > products.size()) {
-                System.out.println("❌ Invalid product number.");
-                return;
-            }
+        // Prompt user to choose which attribute to update
+        int updateChoice = scanner.nextInt();
+        scanner.nextLine();
 
-            Product removed = products.remove(choice - 1);
-            fileHandler.writeFile(products);
-            System.out.println("✅ " + removed.getName() + " has been removed from the inventory.");
-
-        } catch (NumberFormatException e) {
-            System.out.println("❌ Please enter a valid number.");
+        // Update the selected attribute
+        if (updateChoice == 1) {
+            System.out.print("Enter new name: ");
+            String newName = scanner.nextLine();
+            selected.setName(newName);
+        } else if (updateChoice == 2) {
+            System.out.print("Enter new stock value: ");
+            int newStock = scanner.nextInt();
+            selected.setStock(newStock);
+        } else {
+            System.out.println("❌ Invalid option.");
+            return;
         }
-    }
 
-    public void printMenu() {
-        System.out.println("\n===== Inventory System Menu =====");
-        System.out.println("1. View All Products");
-        System.out.println("2. Add Product");
-        System.out.println("3. Edit Product");
-        System.out.println("4. Remove Product");
-        System.out.println("5. Exit");
-    }
+        // Save the updated product list to the file
+        fileHandler.writeFile(products);
+        System.out.println("✅ Product updated and saved.");
 
-    public void printLine() {
-        System.out.println("====================================================");
+    } catch (InputMismatchException e) {
+        // Handle invalid input types (non-numeric values)
+        System.out.println("⚠️ Please enter a valid number.");
+    } catch (Exception e) {
+        // Handle any other unexpected errors
+        System.out.println("❌ Unexpected error: " + e.getMessage());
     }
+}
+
+// Method to remove a product from the inventory
+public void removeProduct() {
+
+    // Check if the products list is empty
+    System.out.print("Enter product number to remove: ");
+    if (products.isEmpty()) {
+        System.out.println("⚠️ No products available to remove.");
+        return;
+    }
+    
+    try {
+        // Prompt user for product number to remove
+        int choice = Integer.parseInt(scanner.nextLine());
+
+        // Validate product number
+        if (choice < 1 || choice > products.size()) {
+            System.out.println("❌ Invalid product number.");
+            return;
+        }
+
+        // Remove the selected product from the list
+        Product removed = products.remove(choice - 1);
+
+        // Save the updated product list to the file
+        fileHandler.writeFile(products);
+        System.out.println("✅ " + removed.getName() + " has been removed from the inventory.");
+
+    } catch (NumberFormatException e) {
+        // Handle invalid input types (non-numeric values)
+        System.out.println("❌ Please enter a valid number.");
+    }
+}
+
+// Method to print the menu options for the inventory system
+public void printMenu() {
+    System.out.println("\n===== Inventory System Menu =====");
+    System.out.println("1. View All Products");
+    System.out.println("2. Add Product");
+    System.out.println("3. Edit Product");
+    System.out.println("4. Remove Product");
+    System.out.println("5. Exit");
+}
+
+// Method to print a line for separation or formatting
+public void printLine() {
+    System.out.println("====================================================");
+}
+
 }

@@ -30,7 +30,7 @@ public class InventorySystem implements InventorySystemInterface {
     // FileHandler instance to handle file operations
     // It is a good idea to use Polymorphism to create a new instance of FileHandler
     // By doing this, we can easily change the implementation of FileHandler in the future
-    private FileHandler fileHandler = new FileHandler();
+    private FileHandlerInterface fileHandler = new FileHandler();
     // Scanner to read Input from the keyboard
     private Scanner scanner = new Scanner(System.in);
 

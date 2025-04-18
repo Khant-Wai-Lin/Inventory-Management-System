@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-interface IInventorySystem {
+
+// An interface to define the methods for the Inventory System
+// This allows for better organization and separation of concerns
+interface InventorySystemInterface {
     void start();
 
     void addNewProduct();
@@ -19,9 +22,16 @@ interface IInventorySystem {
     void printMenu();
 }
 
-public class InventorySystem implements IInventorySystem {
+public class InventorySystem implements InventorySystemInterface {
+    // use List Collection to store the products
+    // We use the list of Product so that we can easily add, remove and edit products
+    // the size of the list is dynamic
     private List<Product> products = new ArrayList<Product>();
+    // FileHandler instance to handle file operations
+    // It is a good idea to use Polymorphism to create a new instance of FileHandler
+    // By doing this, we can easily change the implementation of FileHandler in the future
     private FileHandler fileHandler = new FileHandler();
+    // Scanner to read Input from the keyboard
     private Scanner scanner = new Scanner(System.in);
 
     public void start() {
@@ -31,6 +41,9 @@ public class InventorySystem implements IInventorySystem {
             printMenu();
             System.out.print("Enter your choice: ");
 
+
+            // check if the input is a number or not
+            // if not, catch the exception and print an error message
             try {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -50,6 +63,8 @@ public class InventorySystem implements IInventorySystem {
                     case 5:
                         isExit = true;
                         System.out.println("👋 Exiting... Bye!");
+                        // Close the scanner when the program exits
+                        scanner.close();
                         break;
                     default:
                         System.out.println("❌ Invalid choice.");
@@ -63,16 +78,17 @@ public class InventorySystem implements IInventorySystem {
     }
 
     public void addNewProduct() {
-
+        // Check if the file exists, if not create it
+        // if the file exists, read the file and add the new product to the list
         try (PrintWriter writer = new PrintWriter(new FileWriter("output.txt", true))) { // append mode
             System.out.print("Enter product name: ");
-            String name = scanner.nextLine();
+            String name = scanner.nextLine(); // read input from the keyboard
 
             System.out.print("Enter stock quantity: ");
-            int stock = Integer.parseInt(scanner.nextLine());
+            int stock = Integer.parseInt(scanner.nextLine()); // read input from the keyboard
 
             System.out.print("Enter price: ");
-            double price = Double.parseDouble(scanner.nextLine());
+            double price = Double.parseDouble(scanner.nextLine()); // read input from the keyboard
 
             Product newProduct = new Product(name, stock, price);
             products.add(newProduct);
@@ -85,6 +101,7 @@ public class InventorySystem implements IInventorySystem {
     }
 
     public void viewAllProducts() {
+        // read the file using the FileHandler class
         products = fileHandler.readFile();
         if(products.isEmpty()){
             System.out.println("Sorry ,there in no products in the inventory.");

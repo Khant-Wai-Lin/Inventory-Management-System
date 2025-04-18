@@ -3,7 +3,9 @@ package com.inventory_management_system;
 import java.io.*;
 import java.util.*;
 
-interface IFileHandler {
+// An interface to define the methods for the FileHandler
+// This allows for better organization and separation of concerns
+interface FileHandlerInterface {
     /**
      * Reads the product data from the file and returns it as a list of Product objects.
      * @return List of Product objects read from the file.
@@ -18,7 +20,7 @@ interface IFileHandler {
     void writeFile(List<Product> products);
 }
 
-public class FileHandler implements IFileHandler {
+public class FileHandler implements FileHandlerInterface {
     /**
      * Reads the product data from "output.txt".
      * If the file does not exist, it creates a new file and returns an empty list.
@@ -33,8 +35,13 @@ public class FileHandler implements IFileHandler {
             createFile();
             return products;
         }
+        // check for errors that may ouccr when reading file
+        // using BufferReader in try catch block to handle errors
+        // and close the file after writing to it
         try (BufferedReader fr = new BufferedReader(new FileReader(file))) {
             String line;
+
+            //BufferedReader is used to read the file line by line
             while ((line = fr.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 3) {
@@ -56,8 +63,11 @@ public class FileHandler implements IFileHandler {
      * If the file creation fails, an error message is printed.
      */
     public void createFile() {
+        // check for errors that may ouccr when creating a new file
         try {
             File myFile = new File("output.txt");
+            // Use PrintWriter to create a new file
+            // If the file already exists, it will not be created again
             PrintWriter writer = new PrintWriter(new FileWriter(myFile));
             writer.close();
             System.out.println("✅ New file created: output.txt");
@@ -74,8 +84,13 @@ public class FileHandler implements IFileHandler {
      */
     public void writeFile(List<Product> products) {
         File myFile = new File("output.txt");
+        // check for errors that may ouccr when writing file
+        // using Printer Wrtier in try catch block to handle errors
+        // and close the file after writing to it
         try (PrintWriter pw = new PrintWriter(new FileWriter(myFile))) {
             for (Product p : products) {
+                // use PrintWriter to write the product details to the file
+                // each product is written in the format: name,stock,price
                 pw.println(p.getName() + "," + p.getStock() + "," + p.getPrice());
             }
             System.out.println("✅ Inventory updated and saved to file.");

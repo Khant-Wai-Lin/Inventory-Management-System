@@ -1,6 +1,6 @@
 package com.inventory_management_system;
 // This class represents a Product in the inventory system
-public class Product {
+public class Product implements Comparable<Product>{
     // Fields (attributes) of the Product
     private String name;       // Name of the product
 

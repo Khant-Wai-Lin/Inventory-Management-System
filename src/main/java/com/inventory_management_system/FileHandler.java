@@ -67,7 +67,6 @@ public class FileHandler implements FileHandlerInterface {
         try {
             File myFile = new File("output.txt");
             // Use PrintWriter to create a new file
-            // If the file already exists, it will not be created again
             PrintWriter writer = new PrintWriter(new FileWriter(myFile));
             writer.close();
             System.out.println("✅ New file created: output.txt");

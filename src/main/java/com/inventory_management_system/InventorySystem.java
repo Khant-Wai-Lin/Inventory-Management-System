@@ -68,9 +68,20 @@ public class InventorySystem implements InventorySystemInterface {
                         System.out.println("❌ Invalid choice.");
                 }
 
-            } catch (Exception e) {
+            } 
+            
+            catch (NumberFormatException e) {
+                System.out.println("❌ Invalid format. Please enter a valid number.");
+                // scanner.nextLine();
+            }
+            catch (InputMismatchException e) {
                 System.out.println("❌ Invalid input. Please enter a number.");
-                scanner.nextLine();
+                // scanner.nextLine();
+            }
+            catch (Exception e) {
+                System.out.println("❌ Invalid input. Some Error occurred.");
+                System.out.println("> " + e.getMessage());
+                // scanner.nextLine();
             }
 
         } while (!isExit);
@@ -79,24 +90,21 @@ public class InventorySystem implements InventorySystemInterface {
     public void addNewProduct() {
         // Check if the file exists, if not create it
         // if the file exists, read the file and add the new product to the list
-        try { // append mode
-            System.out.print("Enter product name: ");
-            String name = scanner.nextLine(); // read input from the keyboard
+        System.out.print("Enter product name: ");
+        String name = scanner.nextLine(); // read input from the keyboard
 
-            System.out.print("Enter stock quantity: ");
-            int stock = Integer.parseInt(scanner.nextLine()); // read input from the keyboard
+        System.out.print("Enter stock quantity: ");
+        int stock = Integer.parseInt(scanner.nextLine()); // read input from the keyboard
 
-            System.out.print("Enter price: ");
-            double price = Double.parseDouble(scanner.nextLine()); // read input from the keyboard
+        System.out.print("Enter price: ");
+        double price = Double.parseDouble(scanner.nextLine()); // read input from the keyboard
 
-            Product newProduct = new Product(name, stock, price);
-            products.add(newProduct);
+        Product newProduct = new Product(name, stock, price);
+        products.add(newProduct);
 
-            fileHandler.writeFile(products);
-            System.out.println("✅ Product added successfully.");
-        } catch (NumberFormatException e) {
-            System.out.println("❌ Invalid input. Please enter a number.");
-        }
+        fileHandler.writeFile(products);
+        System.out.println("✅ Product added successfully.");
+        
     }
 
     public void viewAllProducts() {
@@ -126,8 +134,6 @@ public class InventorySystem implements InventorySystemInterface {
             System.out.println("Sorry ,there in no products in the inventory.");
             return;
         }
-        try {
-            // Prompt user for product number to update
             System.out.print("Enter product number to update: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume leftover newline
@@ -171,14 +177,6 @@ public class InventorySystem implements InventorySystemInterface {
             // Save the updated product list to the file
             fileHandler.writeFile(products);
             System.out.println("✅ Product updated and saved.");
-
-        } catch (InputMismatchException e) {
-            // Handle invalid input types (non-numeric values)
-            System.out.println("⚠️ Please enter a valid number.");
-        } catch (Exception e) {
-            // Handle any other unexpected errors
-            System.out.println("❌ Unexpected error: " + e.getMessage());
-        }
     }
 
     // Method to remove a product from the inventory
@@ -194,27 +192,22 @@ public class InventorySystem implements InventorySystemInterface {
             return;
         }
 
-        try {
-            // Prompt user for product number to remove
-            int choice = Integer.parseInt(scanner.nextLine());
+        // Prompt user for product number to remove
+        int choice = Integer.parseInt(scanner.nextLine());
 
-            // Validate product number
-            if (choice < 1 || choice > products.size()) {
-                System.out.println("❌ Invalid product number.");
-                return;
-            }
-
-            // Remove the selected product from the list
-            Product removed = products.remove(choice - 1);
-
-            // Save the updated product list to the file
-            fileHandler.writeFile(products);
-            System.out.println("✅ " + removed.getName() + " has been removed from the inventory.");
-
-        } catch (NumberFormatException e) {
-            // Handle invalid input types (non-numeric values)
-            System.out.println("❌ Please enter a valid number.");
+        // Validate product number
+        if (choice < 1 || choice > products.size()) {
+            System.out.println("❌ Invalid product number.");
+            return;
         }
+
+        // Remove the selected product from the list
+        Product removed = products.remove(choice - 1);
+
+        // Save the updated product list to the file
+        fileHandler.writeFile(products);
+        System.out.println("✅ " + removed.getName() + " has been removed from the inventory.");
+
     }
 
     // Method to print the menu options for the inventory system

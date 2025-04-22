@@ -43,8 +43,7 @@ public class InventorySystem implements InventorySystemInterface {
             // check if the input is a number or not
             // if not, catch the exception and print an error message
             try {
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+                int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
                         viewAllProducts();
